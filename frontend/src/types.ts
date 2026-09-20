@@ -37,9 +37,24 @@ export interface FlushHarvest {
   operatorName: string
 }
 
+export type LabelDye = 'dark' | 'light'
+
+export interface LabelSlip {
+  id: number
+  harvestId: number
+  copies: number
+  dye: LabelDye
+  printedAt: string
+  voidedAt?: string | null
+  voidReason?: string | null
+  flushNo: number
+  roomCode: string
+}
+
 export interface DashboardStats {
   shedTotal: number
   fruitingRoomCount: number
   climateLast24h: number
   harvestKgLast7d: number
+  openLabelSlipCount: number
 }

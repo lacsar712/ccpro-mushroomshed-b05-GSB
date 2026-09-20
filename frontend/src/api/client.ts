@@ -12,6 +12,18 @@ export function clearToken() {
   localStorage.removeItem(TOKEN_KEY)
 }
 
+export class ApiError extends Error {
+  status: number
+  raw: string
+
+  constructor(message: string, status: number, raw: string) {
+    super(message)
+    this.name = 'ApiError'
+    this.status = status
+    this.raw = raw
+  }
+}
+
 export async function api<T>(path: string, options: RequestInit = {}): Promise<T> {
   const headers = new Headers(options.headers || {})
   if (!(options.body instanceof FormData) && !headers.has('Content-Type')) {
@@ -36,7 +48,7 @@ export async function api<T>(path: string, options: RequestInit = {}): Promise<T
       typeof data === 'object' && data && 'detail' in data
         ? String((data as { detail: unknown }).detail)
         : `请求失败 (${res.status})`
-    throw new Error(detail)
+    throw new ApiError(detail, res.status, text)
   }
   return data as T
 }

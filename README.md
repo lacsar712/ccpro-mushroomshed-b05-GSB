@@ -47,7 +47,13 @@ docker compose up --build
 3. **Room 出菇室**：`shedId`、`roomCode`、`species`、`capacityBags`、`status(fruiting|idle|sanitize)`；同菇房 `roomCode` 唯一
 4. **ClimateLog 环境记录**：`roomId`、`recordedAt`、`tempC`、`humidityPct`、`co2Ppm`、`notes`；`humidityPct ∈ [1,100]`，否则 **400**
 5. **FlushHarvest 采收**：`roomId`、`harvestedAt`、`flushNo(≥1)`、`weightKg`、`grade(A|B|C)`、`operatorName`；`weightKg > 0`，否则 **400**
-6. **Dashboard**：`shedTotal`、`fruitingRoomCount`、`climateLast24h`、`harvestKgLast7d`
+6. **LabelSlip 贴标单**：`harvestId`、`copies`、`dye(dark|light，缺省 light)`、`printedAt`
+   - `copies` 上限 **4**（只接受 1–4），`dye` 缺省 `light`
+   - 同一 `harvestId` 同时只允许一张未 void 贴标；重复开单返回 **409**，正文带已有 `slipId`
+   - `weightKg < 0.3` 的潮次禁止开单（**409**，正文带 `harvestId`，库中不新增）；所属 Room 非 `fruiting` 同样 **409**
+   - 作废：`POST /api/label-slips/:id/void`，正文 `reason` 不能空白；void 后才允许重开
+   - `GET /api/label-slips?roomId=` 每行附 `flushNo` 与 `roomCode`（沿 harvest 的 room 主键关联取出）
+7. **Dashboard**：`shedTotal`、`fruitingRoomCount`、`climateLast24h`、`harvestKgLast7d`、`openLabelSlipCount`（仅存活的未 void 贴标单数）
 
 各实体 API：`GET/POST` 列表与创建、`DELETE` 按 ID 删除。
 

@@ -226,7 +226,7 @@ th {
 
 .stat-grid {
   display: grid;
-  grid-template-columns: repeat(4, minmax(0, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
   gap: 16px;
   margin-top: 20px;
 }
@@ -292,6 +292,36 @@ th {
 .badge.grade-c {
   background: #ede8e4;
   color: var(--mushroom-brown);
+}
+
+.slip-inline {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+  flex-wrap: wrap;
+}
+
+.slip-inline input,
+.slip-inline select {
+  padding: 6px 8px;
+  max-width: 150px;
+}
+
+.slip-inline .btn {
+  padding: 6px 10px;
+}
+
+.slip-open {
+  display: inline-flex;
+  gap: 8px;
+  align-items: center;
+}
+
+.slip-raw {
+  white-space: pre-wrap;
+  word-break: break-all;
+  font-family: ui-monospace, "SFMono-Regular", Consolas, monospace;
+  font-size: 13px;
 }
 
 .login-page {
