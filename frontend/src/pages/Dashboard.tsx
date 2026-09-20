@@ -38,6 +38,10 @@ export default function Dashboard() {
             {stats() ? stats()!.harvestKgLast7d.toFixed(2) : '—'}
           </div>
         </div>
+        <div class="stat-card accent">
+          <div class="stat-label">未 void 贴标单</div>
+          <div class="stat-value">{stats()?.openLabelSlipCount ?? '—'}</div>
+        </div>
       </div>
     </div>
   )

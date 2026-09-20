@@ -129,6 +129,7 @@ a {
   border-radius: 10px;
   padding: 10px 12px;
   margin: 12px 0;
+  white-space: pre-wrap;
 }
 
 .panel,
@@ -201,6 +202,34 @@ select {
   border: 1px solid var(--line);
 }
 
+.btn.btn-sm {
+  padding: 4px 10px;
+  font-size: 12px;
+  border-radius: 8px;
+}
+
+.slip-cell {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  flex-wrap: wrap;
+}
+
+.slip-copies {
+  width: 56px;
+  padding: 4px 6px;
+}
+
+.slip-dye {
+  padding: 4px 6px;
+}
+
+.badge.slip-open {
+  background: #dceee0;
+  color: #2a6b3f;
+  white-space: nowrap;
+}
+
 .table-wrap {
   overflow: auto;
 }
@@ -226,7 +255,7 @@ th {
 
 .stat-grid {
   display: grid;
-  grid-template-columns: repeat(4, minmax(0, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
   gap: 16px;
   margin-top: 20px;
 }

@@ -7,6 +7,7 @@ from sqlalchemy import func
 from app.database import SessionLocal
 from app.models.climate_log import ClimateLog
 from app.models.flush_harvest import FlushHarvest
+from app.models.label_slip import LabelSlip
 from app.models.room import Room
 from app.models.shed import Shed
 from app.schemas.dashboard import DashboardStatsSchema
@@ -38,11 +39,19 @@ def get_stats():
             .scalar()
             or 0.0
         )
+        # 只计未 void；须与 GET /api/label-slips 中未 void 行数一致
+        open_label_slip_count = (
+            db.query(func.count(LabelSlip.id))
+            .filter(LabelSlip.voided_at.is_(None))
+            .scalar()
+            or 0
+        )
         payload = {
             "shed_total": shed_total,
             "fruiting_room_count": fruiting_room_count,
             "climate_last_24h": climate_last_24h,
             "harvest_kg_last_7d": float(harvest_kg_last_7d),
+            "open_label_slip_count": open_label_slip_count,
         }
         return jsonify(stats_schema.dump(payload))
     finally:

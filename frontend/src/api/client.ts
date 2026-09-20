@@ -32,11 +32,25 @@ export async function api<T>(path: string, options: RequestInit = {}): Promise<T
   }
 
   if (!res.ok) {
-    const detail =
-      typeof data === 'object' && data && 'detail' in data
-        ? String((data as { detail: unknown }).detail)
-        : `请求失败 (${res.status})`
-    throw new Error(detail)
+    let message = `请求失败 (${res.status})`
+    if (typeof data === 'object' && data !== null) {
+      const obj = data as Record<string, unknown>
+      if ('detail' in obj) {
+        message = String(obj.detail)
+        // 409 等响应还带 slipId / harvestId，把接口原文里的其余字段一并摆出
+        const extra = Object.fromEntries(
+          Object.entries(obj).filter(([k]) => k !== 'detail'),
+        )
+        if (Object.keys(extra).length > 0) {
+          message += `\n响应原文: ${JSON.stringify(data)}`
+        }
+      } else if (text) {
+        message = text
+      }
+    } else if (text) {
+      message = text
+    }
+    throw new Error(message)
   }
   return data as T
 }

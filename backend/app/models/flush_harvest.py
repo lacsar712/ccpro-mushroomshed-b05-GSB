@@ -1,4 +1,5 @@
 from datetime import datetime
+from typing import List
 
 from sqlalchemy import DateTime, Float, ForeignKey, Integer, String
 from sqlalchemy.orm import Mapped, mapped_column, relationship
@@ -18,3 +19,6 @@ class FlushHarvest(Base):
     operator_name: Mapped[str] = mapped_column(String(64), nullable=False)
 
     room: Mapped["Room"] = relationship("Room", back_populates="flush_harvests")
+    label_slips: Mapped[List["LabelSlip"]] = relationship(
+        "LabelSlip", back_populates="harvest", cascade="all, delete-orphan"
+    )

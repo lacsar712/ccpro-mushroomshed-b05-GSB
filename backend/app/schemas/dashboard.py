@@ -6,3 +6,4 @@ class DashboardStatsSchema(Schema):
     fruiting_room_count = fields.Int(data_key="fruitingRoomCount")
     climate_last_24h = fields.Int(data_key="climateLast24h")
     harvest_kg_last_7d = fields.Float(data_key="harvestKgLast7d")
+    open_label_slip_count = fields.Int(data_key="openLabelSlipCount")

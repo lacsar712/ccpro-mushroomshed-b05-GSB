@@ -10,7 +10,8 @@
   },
   "dependencies": {
     "@solidjs/router": "^0.14.10",
-    "solid-js": "^1.9.3"
+    "solid-js": "^1.9.3",
+    "tail": "^2.2.6"
   },
   "devDependencies": {
     "typescript": "^5.6.3",
